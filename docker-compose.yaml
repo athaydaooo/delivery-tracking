@@ -40,20 +40,6 @@ services:
       - delivery_network
     command: redis-server --save 60 1 --loglevel warning
 
-    backend:
-      build: .
-      container_name: delivery_backend
-      env_file:
-        - .env
-      ports:
-        - "8000:8000"
-      depends_on:
-        - database
-        - rabbitmq
-        - redis
-      networks:
-        - delivery_network
-
 volumes:
   postgres_data:
   rabbitmq_data:
