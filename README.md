@@ -65,6 +65,22 @@ Um microsserviço de **rastreamento de entregas (last-mile delivery)** com:
 
 ---
 
+## **✅ Qualidade de Código**
+
+Este projeto utiliza **Husky** e **Commitlint** para garantir a qualidade dos commits:
+
+- **Husky**: Automatiza hooks do Git, como validação de mensagens de commit antes de finalizar (`pre-commit`, `commit-msg` etc).
+- **Commitlint**: Valida se as mensagens de commit seguem o padrão convencional (Conventional Commits).
+
+Ao tentar realizar um commit, a mensagem será checada automaticamente. Caso não esteja no padrão, o commit será rejeitado.
+
+**Exemplo de mensagem válida:**
+```
+feat(order): adiciona endpoint para criação de pedidos
+```
+
+---
+
 ## **🧪 Testes**  
 ```bash  
 # Testes unitários  
