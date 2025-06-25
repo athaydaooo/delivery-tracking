@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:14-alpine
+    container_name: delivery_postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: toor
+      POSTGRES_DB: delivery_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - delivery_network
+
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: delivery_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: toor
+    ports:
+      - "5672:5672" 
+      - "15672:15672"  
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - delivery_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: delivery_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - delivery_network
+    command: redis-server --save 60 1 --loglevel warning
+
+    backend:
+      build: .
+      container_name: delivery_backend
+      env_file:
+        - .env
+      ports:
+        - "8000:8000"
+      depends_on:
+        - database
+        - rabbitmq
+        - redis
+      networks:
+        - delivery_network
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+  redis_data:
+
+networks:
+  delivery_network:
+    driver: bridge
