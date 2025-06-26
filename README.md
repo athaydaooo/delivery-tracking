@@ -34,7 +34,6 @@ Um microsserviço de **rastreamento de entregas (last-mile delivery)** com:
 4. **Acesse os serviços**:  
    - **API NestJS**: `http://localhost:3000`  
    - **RabbitMQ UI**: `http://localhost:15672` (usuário: `root`, senha: `toor`)  
-   - **Prometheus**: `http://localhost:9090`  
 ---
 
 ## **🔍 Endpoints da API**  
