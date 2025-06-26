@@ -22,6 +22,8 @@ async function bootstrap() {
     CREATE_MICROSERVICE_CONFIG(configService),
   );
 
+  await app.startAllMicroservices();
+
   await app.listen(process.env.PORT ?? 3000);
 }
 void bootstrap();

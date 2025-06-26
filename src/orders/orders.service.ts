@@ -13,8 +13,8 @@ export class OrdersService {
     private readonly queueService: QueueService,
   ) {}
 
-  create(createOrderDto: CreateOrderDto) {
-    this.queueService.emitOrderCreated(createOrderDto);
+  async create(createOrderDto: CreateOrderDto) {
+    await this.queueService.emitOrderCreated(createOrderDto);
     return `ok`;
   }
 }
