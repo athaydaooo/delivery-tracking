@@ -11,6 +11,9 @@ export const CREATE_QUEUE_CONFIG = (
   transport: Transport.RMQ,
   options: {
     urls: [configService.get<string>('RABBITMQ_URL', 'amqp://localhost:5672')],
+    exchange: EXCHANGES.ORDERS_TOPIC,
+    exchangeType: 'topic',
+    wildcards: true,
     queueOptions: {
       durable: true,
     },
@@ -18,7 +21,6 @@ export const CREATE_QUEUE_CONFIG = (
       heartbeatIntervalInSeconds: 60,
       reconnectTimeInSeconds: 5,
     },
-    exchange: EXCHANGES.ORDERS_TOPIC,
   },
 });
 
@@ -28,6 +30,9 @@ export const CREATE_MICROSERVICE_CONFIG = (
   transport: Transport.RMQ,
   options: {
     urls: [configService.get<string>('RABBITMQ_URL', 'amqp://localhost:5672')],
+    exchange: EXCHANGES.ORDERS_TOPIC,
+    exchangeType: 'topic',
+    wildcards: true,
     queueOptions: {
       durable: true,
     },
@@ -35,7 +40,6 @@ export const CREATE_MICROSERVICE_CONFIG = (
       heartbeatIntervalInSeconds: 60,
       reconnectTimeInSeconds: 5,
     },
-    exchange: EXCHANGES.ORDERS_TOPIC,
   },
 });
 

@@ -22,33 +22,47 @@ export class QueueService {
     });
   }
 
-  emit(pattern: string, data: unknown): void {
-    this.logEmission(pattern, data);
-    this.client.emit(pattern, data);
-  }
-
-  send(pattern: string, data: unknown): void {
-    this.logger.info(`[QueueService] Sending message`, {
+  private logEmissionError(pattern: string, data: unknown): void {
+    this.logger.info(`[QueueService] Emitting event`, {
       pattern,
       data,
       timestamp: new Date().toISOString(),
     });
-    this.client.send(pattern, data);
   }
 
-  emitOrderCreated(data: CreateOrderDto): void {
-    this.emit(ROUTING_KEYS.ORDER_CREATED, data);
+  async emit(pattern: string, data: unknown): Promise<void> {
+    try {
+      await this.client.emit(pattern, data).toPromise();
+    } catch (e) {
+      this.logEmissionError(pattern, data);
+      throw e;
+    }
+    this.logEmission(pattern, data);
   }
 
-  emitOrderDispatched(): void {
+  async send(pattern: string, data: unknown): Promise<void> {
+    try {
+      await this.client.send(pattern, data).toPromise();
+    } catch (e) {
+      this.logEmissionError(pattern, data);
+      throw e;
+    }
+    this.logEmission(pattern, data);
+  }
+
+  async emitOrderCreated(data: CreateOrderDto): Promise<void> {
+    await this.emit(ROUTING_KEYS.ORDER_CREATED, data);
+  }
+
+  async emitOrderDispatched(): Promise<void> {
     //this.emit(ROUTING_KEYS.ORDER_DISPATCHED, data);
   }
 
-  emitOrderDelivered(): void {
+  async emitOrderDelivered(): Promise<void> {
     //this.emit(ROUTING_KEYS.ORDER_DELIVERED, data);
   }
 
-  emitOrderRefunded(): void {
+  async emitOrderRefunded(): Promise<void> {
     //this.emit(ROUTING_KEYS.ORDER_REFUNDED, data);
   }
 }
