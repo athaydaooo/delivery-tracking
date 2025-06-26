@@ -21,6 +21,10 @@ describe('OrdersController', () => {
           provide: QueueService,
           useValue: {},
         },
+        {
+          provide: 'winston',
+          useValue: {},
+        },
       ],
     }).compile();
 
