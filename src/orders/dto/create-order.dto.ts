@@ -1,39 +1,15 @@
 import { Type } from 'class-transformer';
-import {
-  IsArray,
-  IsInt,
-  IsNumber,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
-
-// src/orders/dto/create-order.dto.ts
-class ProductDto {
-  @IsString()
-  name: string;
-
-  @IsNumber()
-  value: number;
-
-  @IsNumber()
-  weight: number;
-
-  @IsNumber()
-  height: number;
-
-  @IsNumber()
-  width: number;
-}
+import { IsArray, IsInt, IsString, ValidateNested } from 'class-validator';
 
 export class CreateOrderDto {
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ProductDto)
-  products: ProductDto[];
+  @Type()
+  items: { productId: string; quantity: number }[];
 
   @IsString()
   address: string;
 
   @IsInt()
-  deliveryDeadline: number; // Prazo em dias
+  deliveryDeadline: number;
 }
