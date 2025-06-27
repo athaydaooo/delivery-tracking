@@ -1,21 +1,38 @@
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import { OrderItem } from './order-item.entity';
+import { OrderHistory } from './order-history.entity';
+import { OrderEvent } from './order-event.entity';
+import { Carrier } from './carrier.entity';
 import { BaseEntity } from '@shared/database/entities/base.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
-import { Product } from './product.entity';
+import { DeliveryAddress } from '@orders/types/delivery-address';
+import { OrderStatus } from '@orders/types/order-status';
 
-@Entity('orders')
-export class Orders extends BaseEntity {
-  @Column()
-  address: string; // Endereço de entrega
+@Entity()
+export class Order extends BaseEntity {
+  @Column({ unique: true })
+  tracking_code: string;
 
-  @Column()
-  deliveryDeadline: number; // Prazo em dias
+  @Column({
+    enum: OrderStatus,
+    type: 'enum',
+  })
+  status: string;
 
-  @Column({ default: 'PENDING' })
-  status: 'PENDING' | 'ASSIGNED' | 'DELIVERED' | 'FAILED';
+  @ManyToOne(() => Carrier, (carrier) => carrier.orders)
+  carrier: Carrier;
 
   @Column({ nullable: true })
-  carrier?: string; // Transportadora atribuída
+  estimated_delivery_date: Date;
 
-  @OneToMany(() => Product, (product) => product.order, { cascade: true })
-  products: Product[];
+  @Column('jsonb')
+  delivery_address: DeliveryAddress;
+
+  @OneToMany(() => OrderItem, (item) => item.order)
+  items: OrderItem[];
+
+  @OneToMany(() => OrderHistory, (history) => history.order)
+  status_history: OrderHistory[];
+
+  @OneToMany(() => OrderEvent, (event) => event.order)
+  tracking_events: OrderEvent[];
 }

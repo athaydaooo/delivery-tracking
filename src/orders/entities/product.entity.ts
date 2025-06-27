@@ -1,24 +1,30 @@
 import { BaseEntity } from '@shared/database/entities/base.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
-import { Orders } from './order.entity';
+import { Entity, Column } from 'typeorm';
 
-@Entity('products')
+@Entity()
 export class Product extends BaseEntity {
   @Column()
   name: string;
 
-  @Column('float')
-  value: number;
+  @Column('text', { nullable: true })
+  description: string;
 
-  @Column('float')
-  weight: number; // Em kg
+  @Column({ unique: true })
+  sku: string;
 
-  @Column('float')
-  height: number; // Em cm
+  @Column('decimal', { precision: 10, scale: 2 })
+  weight_kg: number;
 
-  @Column('float')
-  width: number; // Em cm
+  @Column('jsonb', { default: { height: 0, width: 0, length: 0 } })
+  dimensions: {
+    height: number;
+    width: number;
+    length: number;
+  };
 
-  @ManyToOne(() => Orders, (order) => order.products)
-  order: Orders;
+  @Column('decimal', { precision: 10, scale: 2 })
+  unit_price: number;
+
+  @Column({ default: true })
+  active: boolean;
 }
