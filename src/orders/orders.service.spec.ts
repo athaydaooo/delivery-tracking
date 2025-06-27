@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { QueueService } from '@shared/queue/queue.service';
-import { Orders } from './entities/order.entity';
+import { Order } from './entities/order.entity';
 import { OrdersService } from './orders.service';
 
 describe('OrdersService', () => {
@@ -12,7 +12,7 @@ describe('OrdersService', () => {
       providers: [
         OrdersService,
         {
-          provide: getRepositoryToken(Orders),
+          provide: getRepositoryToken(Order),
           useValue: {},
         },
         {
