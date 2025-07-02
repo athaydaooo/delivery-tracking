@@ -1,0 +1,106 @@
+{
+  "rabbit_version": "3.12.0",
+  "users": [
+    {
+      "name": "root",
+      "password": "toor",
+      "tags": "administrator"
+    }
+  ],
+   "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "root",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "orders.topic",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "order.created.queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "order.dispatched.queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "order.delivered.queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "order.refunded.queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders_consumer.queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "orders.topic",
+      "vhost": "/",
+      "destination": "order.created.queue",
+      "destination_type": "queue",
+      "routing_key": "order.created",
+      "arguments": {}
+    },
+    {
+      "source": "orders.topic",
+      "vhost": "/",
+      "destination": "order.dispatched.queue",
+      "destination_type": "queue",
+      "routing_key": "order.dispatched",
+      "arguments": {}
+    },
+    {
+      "source": "orders.topic",
+      "vhost": "/",
+      "destination": "order.delivered.queue",
+      "destination_type": "queue",
+      "routing_key": "order.delivered",
+      "arguments": {}
+    },
+    {
+      "source": "orders.topic",
+      "vhost": "/",
+      "destination": "order.refunded.queue",
+      "destination_type": "queue",
+      "routing_key": "order.refunded",
+      "arguments": {}
+    }
+  ]
+}
