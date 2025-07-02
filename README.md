@@ -14,7 +14,7 @@ Um microsserviço de **rastreamento de entregas (last-mile delivery)** com:
 
 ### **Pré-requisitos**  
 - Docker e Docker Compose instalados.  
-- Node.js 18+.  
+- Node.js 20+.  
 
 ### **Passos**  
 1. **Clone o repositório**:  
